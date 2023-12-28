@@ -56,13 +56,7 @@ the Private Join and Compute library and dependencies using Bazel:
 
 ```bash
 cd private-join-and-compute
-bazel build :all
-```
-
-If you get an error, you may need to build with the following flags:
-
-```bash
-bazel build :all --incompatible_disable_deprecated_attr_params=false --incompatible_depset_is_not_iterable=false --incompatible_new_actions_api=false --incompatible_no_support_tools_in_action_inputs=false
+bazel build //private_join_and_compute:all
 ```
 
 (All the following instructions must be run from inside the
@@ -71,18 +65,18 @@ private-join-and-compute folder.)
 Next, generate some dummy data to run the protocol on:
 
 ```shell
-bazel-bin/generate_dummy_data --server_data_file=/tmp/dummy_server_data.csv \
+bazel-bin/private_join_and_compute/generate_dummy_data --server_data_file=/tmp/dummy_server_data.csv \
 --client_data_file=/tmp/dummy_client_data.csv
 ```
 
 This will create dummy data for the server and client at the specified
 locations. You can look at the files in `/tmp/dummy_server_data.csv` and
-`/tmp/dummy_server_data.csv` to see the dummy data that was generated. You can
+`/tmp/dummy_client_data.csv` to see the dummy data that was generated. You can
 also change the size of the dummy data generated using additional flags. For
 example:
 
 ```shell
-bazel-bin/generate_dummy_data \
+bazel-bin/private_join_and_compute/generate_dummy_data \
 --server_data_file=/tmp/dummy_server_data.csv \
 --client_data_file=/tmp/dummy_client_data.csv --server_data_size=1000 \
 --client_data_size=1000 --intersection_size=200 --max_associated_value=100
@@ -91,7 +85,7 @@ bazel-bin/generate_dummy_data \
 Once you've generated dummy data, you can start the server as follows:
 
 ```shell
-bazel-bin/server --server_data_file=/tmp/dummy_server_data.csv
+bazel-bin/private_join_and_compute/server --server_data_file=/tmp/dummy_server_data.csv
 ```
 
 The server will load data from the specified file, and wait for a connection
@@ -102,7 +96,7 @@ Create a new terminal and navigate to the private-join-and-compute folder. Once
 there, run the following command to start the client:
 
 ```shell
-bazel-bin/client --client_data_file=/tmp/dummy_client_data.csv
+bazel-bin/private_join_and_compute/client --client_data_file=/tmp/dummy_client_data.csv
 ```
 
 The client will connect to the server and execute the steps of the protocol
